@@ -4,6 +4,8 @@ from discord.ext import commands
 bot = commands.Bot(command_prefix = '!') #bot commands prefix
 TOKEN = os.getenv("DISCORD_TOKEN")
 
+path = os.path.abspath(__file__)
+
 @bot.event
 async def on_ready(): #activates when bot is ready to work
     print(f'--------------------------------')
@@ -26,7 +28,7 @@ async def unload_ext(ctx, ext):
     bot.unload_extension(f'cogs.{ext}')
 
 
-for filename in os.listdir('./cogs'): #auto activate all cogs from /cogs directory
+for filename in os.listdir(path + '/cogs'): #auto activate all cogs from /cogs directory
     if filename.endswith('.py'):
         bot.load_extension(f'cogs.{filename[:-3]}')
         
