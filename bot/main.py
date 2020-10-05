@@ -4,7 +4,7 @@ from discord.ext import commands
 bot = commands.Bot(command_prefix = '!') #bot commands prefix
 TOKEN = os.getenv("DISCORD_TOKEN")
 
-path = os.path.abspath(__file__)
+path = os.path.dirname(__file__)
 
 @bot.event
 async def on_ready(): #activates when bot is ready to work
