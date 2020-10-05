@@ -6,7 +6,7 @@ import os
 import random
 from urllib.request import urlopen
 
-path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '\data'
+path = os.path.dirname(__file__) + '/data'
 
 os.chdir(path)
 
