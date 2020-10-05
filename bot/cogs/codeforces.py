@@ -6,7 +6,7 @@ import os
 import random
 from urllib.request import urlopen
 
-path = os.path.dirname(__file__) + '/data'
+path = os.path.dirname(__file__) + '/data/'
 
 class codeforces(commands.Cog):
     def __init__(self, bot):
