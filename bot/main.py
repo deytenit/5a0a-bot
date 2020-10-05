@@ -1,4 +1,5 @@
 import os
+import discord
 from discord.ext import commands
 
 bot = commands.Bot(command_prefix = '!') #bot commands prefix
@@ -14,7 +15,7 @@ async def on_ready(): #activates when bot is ready to work
     print(f'user id: {bot.user.id}')
     print(f'--------------------------------')
 
-    game = discord.Game('kill mankind')
+    game = discord.Game("kill mankind")
     await bot.change_presence(status = discord.Status.idle, activity = game)
 
 
