@@ -2,7 +2,7 @@ import os
 from discord.ext import commands
 
 bot = commands.Bot(command_prefix="!")
-TOKEN = os.getenv('NzIyMjE0MTA3MjM5MDIyNjcy.Xuf0TQ.UrSOyJIIbqDzpObzVDkuDQaYDHk')
+TOKEN = os.getenv("DISCORD_TOKEN")
 
 @bot.event
 async def on_ready():
