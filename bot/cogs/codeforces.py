@@ -8,8 +8,6 @@ from urllib.request import urlopen
 
 path = os.path.dirname(__file__) + '/data'
 
-os.chdir(path)
-
 class codeforces(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -25,7 +23,7 @@ class codeforces(commands.Cog):
         json_url = urlopen(url)
         probs = json.loads(json_url.read())
 
-        with open('problems.json', 'w') as f:
+        with open(path + 'problems.json', 'w') as f:
             json.dump(probs, f)
 
         await ctx.send(f'Codeforces db updated successfully.')
@@ -33,7 +31,7 @@ class codeforces(commands.Cog):
 
     @commands.command() #send url to random cf problem in specific dificulty range
     async def sproblem(self, ctx, minr = 1700, maxr = 2200):
-        with open('problems.json', encoding = 'utf-8') as f:
+        with open(path + 'problems.json', encoding = 'utf-8') as f:
             probs = json.load(f)
 
         ps = []
@@ -47,7 +45,7 @@ class codeforces(commands.Cog):
 
     @commands.command() #creating mashup of random cf problems in specific dificulty range
     async def genmash(self, ctx, minr = 1700, maxr = 2200, cnt = 4, mod = '-ns'):
-        with open('problems.json', encoding = 'utf-8') as f:
+        with open(path + 'problems.json', encoding = 'utf-8') as f:
             probs = json.load(f)
 
         ps = []
