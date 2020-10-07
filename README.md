@@ -13,16 +13,9 @@ Python discord bot with some cool features
 - **Find** random codeforces task with specific difficulty and tags (default difficulty: 1700 - 2200; no default tags)
 - **Generating** mashup with any posible amount of tasks with specific difficulty (default difficulty: 1700 - 2200; default amount of tasks: 4)
 
-### Economy and casino
+### Karma
 
-- **Bank** account with 10000 start money
-- **Casino** dice roll with bot
-
-### Fun
-
-- **Dice** roll without bets
-- **Rock** paper scissors with bot
-- **Flip** coin
+- **Karma** system according to your server activity
 
 ## Installation
 
@@ -43,9 +36,9 @@ pip install discord.py
 ```
 ### Bot startup
 
-- **Insert** bot token in `token.txt` file
+- **Insert** bot token in main.py file
 
-- **Run** `run.bat` file to startup bot
+- **Start** main.py
 
 ## Bot modifying
 
