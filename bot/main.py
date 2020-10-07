@@ -10,12 +10,12 @@ path = os.path.dirname(__file__)
 @bot.event
 async def on_ready(): #activates when bot is ready to work
     print(f'--------------------------------')
-    print(f'wndrx is ready') 
+    print(f'bot is ready') 
     print(f'user name: {bot.user.name}')
     print(f'user id: {bot.user.id}')
     print(f'--------------------------------')
 
-    game = discord.Game("kill mankind")
+    game = discord.Game("github.com/unknowableshade/5a0a-bot")
     await bot.change_presence(status = discord.Status.idle, activity = game)
 
 
