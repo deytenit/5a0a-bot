@@ -1,4 +1,4 @@
-# wndrx bot 2010.1
+# 5a0a - 2010.1
 Python discord bot with some cool features
 
 ## Patch notes
@@ -10,8 +10,8 @@ Python discord bot with some cool features
 
 ### Codeforces task finder
 
-- **Find** random codeforces task with specific difficulty and tags (default difficulty: 1700 - 2200; no default tags)
-- **Generating** mashup with any posible amount of tasks with specific difficulty (default difficulty: 1700 - 2200; default amount of tasks: 4)
+- **Find** random codeforces task with specific difficulty and tags (default difficulty: 1600 - 2200; no default tags)
+- **Generating** mashup with any posible amount of tasks with specific difficulty and tags (default difficulty: 1600 - 2200; default amount of tasks: 4; no default tags)
 
 ### Karma
 
@@ -25,7 +25,7 @@ Python discord bot with some cool features
 
 ### Requirements
 
-> :warning: **wndrx requires Python 3.7 or later & Discord.py library 1.4.0b or later!**
+> :warning: **bot requires Python 3.7 or later & Discord.py library 1.4.0b or later!**
 
 - **[Download](https://www.python.org/downloads/)** Python from official website
 
