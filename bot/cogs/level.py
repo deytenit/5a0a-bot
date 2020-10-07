@@ -12,7 +12,7 @@ class level(commands.Cog):
 
     @commands.Cog.listener() #activates when this cog in ready state
     async def on_ready(self):
-        print(f'Fun cog is active.')
+        print(f'Level cog is active.')
 
     @commands.Cog.listener()
     async def on_message(self, msg):
@@ -80,7 +80,6 @@ class level(commands.Cog):
             await ctx.send(f'**Nobody on server have karma...**')
         else:
             await ctx.send(s) 
-
 
 def cmp(obj): #comporator for rating sorting
     return obj[1]
