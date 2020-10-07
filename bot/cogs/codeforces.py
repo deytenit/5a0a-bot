@@ -70,7 +70,7 @@ class codeforces(commands.Cog):
     @commands.command()
     async def taglist(self, ctx):
         tags = open(path + 'tags.txt')
-        ctx.send(tags)
+        await ctx.send(tags)
 
 
 def cmp(obj): #comporator for problems sorting
