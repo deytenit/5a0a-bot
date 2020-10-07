@@ -69,7 +69,8 @@ class codeforces(commands.Cog):
     
     @commands.command()
     async def taglist(self, ctx):
-        tags = open(path + 'tags.txt')
+        with open(path + 'tags.txt',  encoding='utf-8') as f:
+            tags = f.readlines()
         await ctx.send(tags)
 
 
