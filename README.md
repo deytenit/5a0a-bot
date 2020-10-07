@@ -1,29 +1,60 @@
-# Hosting your discord.py bot on Heroku
-### What are the prerequisites for this guide?
-You must have an account for Discord [[Link](https://discordapp.com/developers/applications/)], GitHub [[Link](https://github.com/join)] , and Heroku [[Link](https://signup.heroku.com/)].
+# wndrx bot 2010.1
+Python discord bot with some cool features
 
-### How do I create a bot and get a bot token?
-* Create an application in the developer portal by clicking [here](https://discordapp.com/developers/applications/)
-* Open up your new application and click 'Add Bot' under the Bot settings to create your bot.
-* After creating the bot, click the 'Copy' button under the title Token. Take note of your token as you will need it later.
+## Patch notes
 
-### How to fork the repository and set it up to work with Heroku?
-* Fork a copy of this repository by clicking the 'Fork' on the upper right-hand.
-* Create an application for Heroku by clicking [here](https://dashboard.heroku.com/new-app).
-* Under 'Deploy', do the following:
-  * Deployment Method => Connect your GitHub
-  * App connected to GitHub => Search for the forked repository
-  * Automatic Deploy => Enable Automatic Deploy (to redeploy after every commit)
-* Under 'Settings', click on 'Reveal Config Vars' and enter the following:
-  * KEY => DISCORD_TOKEN
-  * VALUE => (Enter the bot token that you copied from the developer portal)
-  * Click the 'Add' button after entering all of this information.
-* Under 'Resources', do the following:
-  * Click on the 'Pencil' icon.
-  * Switch the worker from off to on.
-  * Click 'Confirm' to finalize the decision.
-  * NOTE: You are allocated 550 free Dyno hours, which will not last the entire month. However, if you provide a credit card to verify your identity, you are given an additional 450 hours, which will allow your bot to run indefinitely.
+- **Added:** Searching for problems through tags
+- **Deleted:** Majority of bot's functions. I'm gonna re:type it
 
-# TO-DO LIST
-* Revise the tutorial to be easier to understand for any user.
-* Add some images for following along with the process.
+## Features
+
+### Codeforces task finder
+
+- **Find** random codeforces task with specific difficulty and tags (default difficulty: 1700 - 2200; no default tags)
+- **Generating** mashup with any posible amount of tasks with specific difficulty (default difficulty: 1700 - 2200; default amount of tasks: 4)
+
+### Economy and casino
+
+- **Bank** account with 10000 start money
+- **Casino** dice roll with bot
+
+### Fun
+
+- **Dice** roll without bets
+- **Rock** paper scissors with bot
+- **Flip** coin
+
+## Installation
+
+### Download bot repository
+
+- **[Download](https://github.com/unknowableshade/wndrx-bot/archive/master.zip)**
+
+### Requirements
+
+> :warning: **wndrx requires Python 3.7 or later & Discord.py library 1.4.0b or later!**
+
+- **[Download](https://www.python.org/downloads/)** Python from official website
+
+- **Install** Discord.py library:
+
+```bash
+pip install discord.py
+```
+### Bot startup
+
+- **Insert** bot token in `token.txt` file
+
+- **Run** `run.bat` file to startup bot
+
+## Bot modifying
+
+> :warning: **bot modification may disrupt its operation. be careful**
+
+- **Discord.py** [documentation](https://discordpy.readthedocs.io/en/latest/)
+
+- **Python** [documentation](https://docs.python.org/3/)
+
+## Licence 
+
+**[Licence](https://choosealicense.com/licenses/apache-2.0/)**
