@@ -34,5 +34,5 @@ implementation
 trees
 probabilities
 graphs
-hinese remainder theorem
+chinese remainder theorem
 ```
