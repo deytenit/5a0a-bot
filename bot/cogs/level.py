@@ -4,9 +4,7 @@ from discord.ext import commands
 import json
 import os
 
-path = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '\data'
-
-os.chdir(path)
+path = os.path.dirname(__file__) + '/data/'
 
 class level(commands.Cog):
     def __init__(self, bot):
@@ -20,7 +18,7 @@ class level(commands.Cog):
     async def on_message(self, msg):
         if not msg.content.startswith('-') and not msg.content.startswith('!') and not msg.author.bot:
             usr = str(msg.author.id)
-            with open('users.json', 'r', encoding='utf-8') as f:
+            with open(path + 'users.json', 'r', encoding='utf-8') as f:
                 users = json.load(f)
 
             if usr not in users:
@@ -29,13 +27,13 @@ class level(commands.Cog):
             else:
                 users[usr]['karma'] = str(int(users[usr]['karma']) + 1)
 
-            with open('users.json', 'w') as f:
+            with open(path + 'users.json', 'w') as f:
                 json.dump(users, f)
 
     @commands.command()
     async def karma(self, ctx, temp):
         usr = str(temp.id)
-        with open('users.json', 'r', encoding='utf-8') as f:
+        with open(path + 'users.json', 'r', encoding='utf-8') as f:
             users = json.load(f)
 
         if usr not in users:
@@ -43,7 +41,7 @@ class level(commands.Cog):
             users[usr]['karma'] = 0
         await ctx.send(f'**{temp} karma is ' + str(users[usr]['karma']) + '**')
 
-        with open('users.json', 'w') as f:
+        with open(path + 'users.json', 'w') as f:
             json.dump(users, f)
 
     @karma.error
@@ -53,19 +51,19 @@ class level(commands.Cog):
 
         if isinstance(error, commands.MissingRequiredArgument):
             usr = str(ctx.message.author.id)
-            with open('users.json', 'r', encoding='utf-8') as f:
+            with open(path + 'users.json', 'r', encoding='utf-8') as f:
                 users = json.load(f)
             if usr not in users:
                 users[usr] = {}
                 users[usr]['karma'] = 0
             await ctx.send(f'**Your karma is ' + str(users[usr]['karma']) + '**')
-            with open('users.json', 'w') as f:
+            with open(path + 'users.json', 'w') as f:
                 json.dump(users, f)
 
 
     @commands.command() #rating of people with most karma on server
     async def krating(self, ctx):
-        with open('users.json', 'r') as f:
+        with open(path + 'users.json', 'r') as f:
             users = json.load(f)
 
         a = []
