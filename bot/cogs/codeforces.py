@@ -71,7 +71,7 @@ class codeforces(commands.Cog):
 def cmp(obj): #comporator for problems sorting
     return obj[1]
 
-def tagcheck(*tag, tags):
+def tagcheck(tag, tags):
     for i in tags:
         if i in tag:
             return True
