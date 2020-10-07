@@ -30,21 +30,21 @@ class codeforces(commands.Cog):
 
 
     @commands.command() #send url to random cf problem in specific dificulty range
-    async def sproblem(self, ctx, minr = 1700, maxr = 2200):
+    async def sproblem(self, ctx, minr = 1600, maxr = 2200, *tag):
         with open(path + 'problems.json', encoding = 'utf-8') as f:
             probs = json.load(f)
 
         ps = []
 
         for prb in probs['result']['problems']:
-            if ('rating' in prb) and (prb['rating'] >= minr) and (prb['rating'] <= maxr):
+            if ('rating' in prb) and (prb['rating'] >= minr) and (prb['rating'] <= maxr) and (tagcheck(tag, prb['tags'])):
                 ps.append('https://codeforces.com/problemset/problem/' + str(prb['contestId']) + '/' + str(prb['index']))
 
         await ctx.send(random.choice(ps))
 
 
     @commands.command() #creating mashup of random cf problems in specific dificulty range
-    async def genmash(self, ctx, minr = 1700, maxr = 2200, cnt = 4, mod = '-ns'):
+    async def genmash(self, ctx, minr = 1600, maxr = 2200, cnt = 4, *tag):
         with open(path + 'problems.json', encoding = 'utf-8') as f:
             probs = json.load(f)
 
@@ -53,21 +53,17 @@ class codeforces(commands.Cog):
         s = f'\n'
 
         for prb in probs['result']['problems']:
-            if ('rating' in prb) and (prb['rating'] >= minr) and (prb['rating'] <= maxr):
+            if ('rating' in prb) and (prb['rating'] >= minr) and (prb['rating'] <= maxr) and (tagcheck(tag, prb['tags'])):
                 ps.append(('https://codeforces.com/problemset/problem/' + str(prb['contestId']) + '/' + str(prb['index']), prb['rating']))
 
         for i in range(cnt):
             a = random.randint(0, len(ps))
-            if mod == '-s':
-                pss.append((ps[a][0], ps[a][1]))
-            else:
-                s += f'{ps[a][0]} = {str(ps[a][1])}\n'
+            s += f'{ps[a][0]} = {str(ps[a][1])}\n'
             ps.pop(a)
 
-        if mod == '-s':
-            pss.sort(reverse = False, key = cmp)
-            for i in range(len(pss)):
-                s += f'{pss[i][0]} = {str(pss[i][1])}\n'
+        pss.sort(reverse = False, key = cmp)
+        for i in range(len(pss)):
+            s += f'{pss[i][0]} = {str(pss[i][1])}\n'
 
         await ctx.send(s)
 
@@ -75,6 +71,11 @@ class codeforces(commands.Cog):
 def cmp(obj): #comporator for problems sorting
     return obj[1]
 
+def tagcheck(*tag, tags):
+    for i in tags:
+        if i in tag:
+            return True
+    return False
 
 def setup(bot):
     bot.add_cog(codeforces(bot))
