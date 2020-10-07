@@ -66,6 +66,11 @@ class codeforces(commands.Cog):
             s += f'{pss[i][0]} = {str(pss[i][1])}\n'
 
         await ctx.send(s)
+    
+    @commands.command()
+    async def taglist(self, ctx):
+        tags = open(path + 'tags.txt')
+        ctx.send(tags)
 
 
 def cmp(obj): #comporator for problems sorting

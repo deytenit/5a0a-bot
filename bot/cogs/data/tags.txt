@@ -1,0 +1,38 @@
+**List** of all codeforces problems tags:
+```
+expression parsing
+fft
+two pointers
+binary search
+dsu
+strings
+number theory
+data structures
+hashing
+shortest paths
+matrices
+string suffix structures
+graph matchings
+dp
+dfs and similar
+meet-in-the-middle
+games
+schedules
+constructive algorithms
+greedy
+bitmasks
+divide and conquer
+flows
+geometry
+math
+sortings
+ternary search
+combinatorics
+brute force
+implementation
+2-sat
+trees
+probabilities
+graphs
+hinese remainder theorem
+```
