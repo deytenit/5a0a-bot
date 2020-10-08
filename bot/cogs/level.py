@@ -81,7 +81,7 @@ class level(commands.Cog):
         else:
             await ctx.send(s) 
             
-    @command.command()
+    @commands.command()
     async def flip(ctx, self, side, bet=100):
         usr = str(temp.id)
         side = side.lower()
