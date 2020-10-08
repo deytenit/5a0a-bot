@@ -82,7 +82,7 @@ class level(commands.Cog):
             await ctx.send(s) 
             
     @commands.command()
-    async def flip(ctx, self, side, bet=100):
+    async def flip(self, ctx, side, bet=100):
         usr = str(ctx.message.author.id)
         side = side.lower()
         with open(path + 'users.json', 'r', encoding='utf-8') as f:
