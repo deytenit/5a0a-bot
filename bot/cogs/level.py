@@ -2,6 +2,7 @@
 import discord
 from discord.ext import commands
 import json
+import random
 import os
 
 path = os.path.dirname(__file__) + '/data/'
