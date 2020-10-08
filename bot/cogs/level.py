@@ -83,7 +83,7 @@ class level(commands.Cog):
             
     @commands.command()
     async def flip(ctx, self, side, bet=100):
-        usr = str(temp.id)
+        usr = str(ctx.message.author.id)
         side = side.lower()
         with open(path + 'users.json', 'r', encoding='utf-8') as f:
             users = json.load(f)
