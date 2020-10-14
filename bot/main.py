@@ -53,7 +53,7 @@ async def algo(ctx, name):
             with open(path + '/cogs/data/code.cpp', 'w') as f:
                 f.write(file.decode('utf-8'))
             area = ctx.message.channel
-            await ctx.send('**Code is too long! I can only drop the file:**'.format(id = 'text'), file = File(path + '/cogs/data/code.cp'))
+            await ctx.send('**Code is too long! I can only drop the file:**'.format(id = 'text'), file = File(path + '/cogs/data/code.cpp'))
         else: 
             await ctx.send('```cpp\n' + file.decode('utf-8') + '\n```')
 
