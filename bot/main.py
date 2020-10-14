@@ -2,6 +2,7 @@ import os
 import discord
 from github import Github
 from discord.ext import commands
+from discord import File
 import json
 
 bot = commands.Bot(command_prefix = '!') #bot commands prefix
