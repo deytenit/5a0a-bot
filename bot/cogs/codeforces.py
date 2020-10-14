@@ -60,7 +60,7 @@ class codeforces(commands.Cog):
             a = random.randint(0, len(ps))
             s += f'{ps[a][0]} = {str(ps[a][1])}\n'
             ps.pop(a)
-
+        
         pss.sort(reverse = False, key = cmp)
         for i in range(len(pss)):
             s += f'{pss[i][0]} = {str(pss[i][1])}\n'
