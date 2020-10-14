@@ -1,9 +1,14 @@
 import os
 import discord
+from github import Github
 from discord.ext import commands
+import json
 
 bot = commands.Bot(command_prefix = '!') #bot commands prefix
 TOKEN = os.getenv("DISCORD_TOKEN")
+GTOKEN = os.getenv("GITHUB_TOKEN")
+
+g = Github(GTOKEN)
 
 path = os.path.dirname(__file__)
 
@@ -32,7 +37,34 @@ async def unload_ext(ctx, ext):
 for filename in os.listdir(path + '/cogs'): #auto activate all cogs from /cogs directory
     if filename.endswith('.py'):
         bot.load_extension(f'cogs.{filename[:-3]}')
-        
+
+@bot.command()
+async def algo(ctx, name):
+    with open(path + '/cogs/data/cpapi.json', 'r', encoding='utf-8') as f:
+        api = json.load(f)
+    if not name in api:
+        await ctx.send('Could not find file in repo.')
+    else:
+        repo = g.get_repo('Nartovdima/cp')
+        code = repo.get_contents(api[name])
+        file = code.decoded_content
+        if (len(file.decode('utf-8')) > 1980):
+            with open(path + '/cogs/data/code.cpp', 'w') as f:
+                f.write(file.decode('utf-8'))
+            area = ctx.message.channel
+            await ctx.send('**Code is too long! I can only drop the file:**'.format(id = 'text'), file = File(path + '/cogs/data/code.cp'))
+        else: 
+            await ctx.send('```cpp\n' + file.decode('utf-8') + '\n```')
+
+
+@algo.error
+async def info_error(ctx, error):
+    if isinstance(error, commands.MissingRequiredArgument):
+        repo = g.get_repo('Nartovdima/cp')
+        code = repo.get_contents('README.md')
+        file = code.decoded_content
+        await ctx.send('```md\n' + file.decode('utf-8') + '\n```')
+
 @bot.command()
 async def ping(ctx):
     await ctx.send("pong")
