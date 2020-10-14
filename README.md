@@ -1,10 +1,10 @@
-# 5a0a - 2010.1
+# 5a0a - 2010.2
 Python discord bot with some cool features
 
 ## Patch notes
 
-- **Added:** Searching for problems through tags
-- **Deleted:** Majority of bot's functions. I'm gonna re:type it
+- **Added:** Algo database connection
+- **Deleted:** Still majority of bot's functions. I'm gonna re:type it
 
 ## Features
 
@@ -16,6 +16,10 @@ Python discord bot with some cool features
 ### Karma
 
 - **Karma** system according to your server activity
+
+### Algobase
+
+- **Algo** search from prvt repo
 
 ## Installation
 
@@ -29,7 +33,7 @@ Python discord bot with some cool features
 
 - **[Download](https://www.python.org/downloads/)** Python from official website
 
-- **Install** Discord.py & PyGitHub library:
+- **Install** Discord.py & PyGithub libraries:
 
 ```bash
 $ pip install discord.py
@@ -37,7 +41,7 @@ $ pip install PyGithub
 ```
 ### Bot startup
 
-- **Insert** bot token in main.py file
+- **Insert** bot & github (if you have access to repo) token in main.py file
 
 - **Start** main.py
 
