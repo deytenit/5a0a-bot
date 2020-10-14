@@ -2,6 +2,7 @@
 import discord
 from discord.ext import commands
 import json
+import random
 import os
 
 path = os.path.dirname(__file__) + '/data/'
@@ -80,6 +81,38 @@ class level(commands.Cog):
             await ctx.send(f'**Nobody on server have karma...**')
         else:
             await ctx.send(s) 
+            
+    @commands.command()
+    async def flip(self, ctx, side, bet=100):
+        usr = str(ctx.message.author.id)
+        side = side.lower()
+        with open(path + 'users.json', 'r', encoding='utf-8') as f:
+            users = json.load(f)
+          
+        if not usr in users:
+            await ctx.send('You do not have any karma.')
+        else:
+            tmp = random.randint(0, 7)
+            if tmp < 4:
+                if side == 'tails':
+                    users[usr]['karma'] = str(round(int(users[usr]['karma']) * 1.25))
+                    await ctx.send('Tails - You win!')
+                else:
+                    await ctx.send('Heads - You lose.')
+                    
+            if tmp > 4:
+                if side == 'heads':
+                    users[usr]['karma'] = str(round(int(users[usr]['karma']) * 1.25))
+                    await ctx.send('Heads - You win!')
+                else:
+                    await ctx.send('Tails - You lose.')
+            
+            if tmp == 4:
+                if side == 'side':
+                    users[usr]['karma'] = str(round(int(users[usr]['karma']) * 1.75))
+                    await ctx.send('Side - Jackpot!')
+                else:
+                    await ctx.send('Not side - You lose.')
 
 def cmp(obj): #comporator for rating sorting
     return obj[1]
