@@ -29,10 +29,11 @@ Python discord bot with some cool features
 
 - **[Download](https://www.python.org/downloads/)** Python from official website
 
-- **Install** Discord.py library:
+- **Install** Discord.py & PyGitHub library:
 
 ```bash
-pip install discord.py
+$ pip install discord.py
+$ pip install PyGithub
 ```
 ### Bot startup
 
