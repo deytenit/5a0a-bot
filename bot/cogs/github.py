@@ -21,7 +21,7 @@ class gitconnect(commands.Cog):
         print(f'gitconnect cog is active.')
 
     @commands.command()
-    async def algo(ctx, name):
+    async def algo(self, ctx, name):
         with open(path + '/cpapi.json', 'r', encoding='utf-8') as f:
             api = json.load(f)
         if not name in api:
@@ -40,7 +40,7 @@ class gitconnect(commands.Cog):
 
 
     @algo.error
-    async def info_error(ctx, error):
+    async def info_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             repo = g.get_repo('Nartovdima/cp')
             code = repo.get_contents('README.md')
