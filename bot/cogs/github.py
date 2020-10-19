@@ -2,8 +2,8 @@
 import discord
 from discord.ext import commands
 import json
-import random
 import os
+from discord import File
 from github import Github
 
 path = os.path.dirname(__file__) + '/data/'
