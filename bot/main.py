@@ -6,9 +6,6 @@ import json
 
 bot = commands.Bot(command_prefix = '!') #bot commands prefix
 TOKEN = os.getenv("DISCORD_TOKEN")
-GTOKEN = os.getenv("GITHUB_TOKEN")
-
-g = Github(GTOKEN)
 
 path = os.path.dirname(__file__)
 
