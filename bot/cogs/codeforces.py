@@ -78,7 +78,7 @@ def cmp(obj): #comporator for problems sorting
     return obj[1]
 
 def tagcheck(tag, tags):
-    if size(tag) == 0:
+    if len(tag) == 0:
         return True
     for i in tags:
         if i in tag:
