@@ -30,7 +30,7 @@ class codeforces(commands.Cog):
 
 
     @commands.command() #send url to random cf problem in specific dificulty range
-    async def sproblem(self, ctx, minr = 1600, maxr = 2200, *tag):
+    async def sproblem(self, ctx, minr = 1600, maxr = 2200, *tag = []):
         with open(path + 'problems.json', encoding = 'utf-8') as f:
             probs = json.load(f)
 
@@ -44,7 +44,7 @@ class codeforces(commands.Cog):
 
 
     @commands.command() #creating mashup of random cf problems in specific dificulty range
-    async def genmash(self, ctx, minr = 1600, maxr = 2200, cnt = 4, *tag):
+    async def genmash(self, ctx, minr = 1600, maxr = 2200, cnt = 4, *tag = []):
         with open(path + 'problems.json', encoding = 'utf-8') as f:
             probs = json.load(f)
 
@@ -78,6 +78,8 @@ def cmp(obj): #comporator for problems sorting
     return obj[1]
 
 def tagcheck(tag, tags):
+    if size(tag) == 0:
+        return True
     for i in tags:
         if i in tag:
             return True
