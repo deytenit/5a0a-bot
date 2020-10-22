@@ -33,7 +33,10 @@ class codeforces(commands.Cog):
     async def sproblem(self, ctx, minr = 1600, maxr = 2200, *tag):
         with open(path + 'problems.json', encoding = 'utf-8') as f:
             probs = json.load(f)
-
+           
+        if maxr <  minr:
+            minr, maxr = maxr, minr
+        
         ps = []
 
         for prb in probs['result']['problems']:
@@ -48,6 +51,9 @@ class codeforces(commands.Cog):
         with open(path + 'problems.json', encoding = 'utf-8') as f:
             probs = json.load(f)
 
+        if maxr <  minr:
+            minr, maxr = maxr, minr    
+            
         ps = []
         pss = []
         s = f'\n'
