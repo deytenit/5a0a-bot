@@ -3,3 +3,4 @@ flask
 PyNaCl
 dnspython
 PyGithub
+telebot
