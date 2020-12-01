@@ -2,6 +2,3 @@ discord.py
 flask
 PyNaCl
 dnspython
-PyGithub
-telebot
-PyTelegramBotAPI
