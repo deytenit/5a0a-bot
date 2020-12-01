@@ -17,10 +17,6 @@ Python discord bot with some cool features
 
 - **Karma** system according to your server activity
 
-### Algobase
-
-- **Algo** search from prvt repo
-
 ## Installation
 
 ### Download bot repository
