@@ -79,6 +79,31 @@ class codeforces(commands.Cog):
             tags = f.read()
         await ctx.send(tags)
 
+    @commands.command()
+    async def ratingcheck(self, ctx, url):
+        contestid = ''
+        ID = ''
+        for i in url:
+            if i.isdigit():
+                contestid += i
+            if i.isupper():
+                ID += i
+        print(contestid)
+        print(ID)
+        with open(path + 'problems.json', encoding = 'utf-8') as f:
+            probs = json.load(f)
+
+        rating = ''
+
+        for prb in probs['result']['problems']:
+            if (str(prb['contestId']) == contestid) and (str(prb['index']) == ID):
+                if ('rating' in prb):
+                    rating = str(prb['rating'])
+                    break
+                else:
+                    rating = 'Error: 404'
+        await ctx.send(f'Rating = {rating}')
+
 
 def cmp(obj): #comporator for problems sorting
     return obj[1]
