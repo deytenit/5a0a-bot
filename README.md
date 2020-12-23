@@ -37,7 +37,7 @@ $ pip install PyGithub
 ```
 ### Bot startup
 
-- **Insert** bot & github (if you have access to repo) token in main.py file
+- **Insert** bot token in main.py file
 
 - **Start** main.py
 
