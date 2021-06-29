@@ -21,7 +21,7 @@ class f1(commands.Cog):
     async def f1_drivers(self, ctx):
         try:
             drivers = json.loads(urlopen(f'http://ergast.com/api/f1/current/driverStandings.json').read())
-            drivers = drivers['StandingsTable']['StandingsLists'][0]
+            drivers = drivers['MRData']['StandingsTable']['StandingsLists'][0]
             season = drivers['season']
             round = drivers['round']
             standings = f'**FIA Formula 1 {season} championship. Standings on round {round}.**\n'
