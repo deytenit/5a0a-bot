@@ -3,10 +3,11 @@ import discord
 from discord.ext import commands
 import json
 import os
+import urllib
 import random
 from urllib.request import urlopen
 
-path = os.path.dirname(__file__) + '/data/'
+path = os.path.dirname(__file__) + '/data'
 
 class codeforces(commands.Cog):
     def __init__(self, bot):
@@ -16,105 +17,76 @@ class codeforces(commands.Cog):
     async def on_ready(self):
         print(f'Codeforces cog is active.')
 
+    @commands.command()
+    async def cf_auth(self, ctx, handle):
+        try:
+            user = json.loads(urlopen(f'https://codeforces.com/api/user.info?handles={handle}').read())
+            with open(f'{path}/users.json', 'r', encoding='utf-8') as file:
+                users = json.load(file)
 
-    @commands.command() #update cf task db
-    async def update(self, ctx):
-        url = 'https://codeforces.com/api/problemset.problems'
-        json_url = urlopen(url)
-        probs = json.loads(json_url.read())
+            id = str(ctx.author.id)
+            if id not in users:
+                users[id] = {}
 
-        with open(path + 'problems.json', 'w') as f:
-            json.dump(probs, f)
+            users[id]['handle'] = handle
 
-        await ctx.send(f'Codeforces db updated successfully.')
+            with open(f'{path}/users.json', 'w', encoding='utf-8') as file:
+                json.dump(users, file)
 
+            await ctx.send(f'Successfuly authenicated as {handle}.')
 
-    @commands.command() #send url to random cf problem in specific dificulty range
-    async def sproblem(self, ctx, minr = 1600, maxr = 2200, *tag):
-        with open(path + 'problems.json', encoding = 'utf-8') as f:
-            probs = json.load(f)
-           
-        if maxr <  minr:
-            minr, maxr = maxr, minr
-        
-        ps = []
+        except urllib.error.HTTPError:
+            await ctx.send(f'User {handle} is not found or server is unavailable.')
 
-        for prb in probs['result']['problems']:
-            if ('rating' in prb) and (prb['rating'] >= minr) and (prb['rating'] <= maxr) and (tagcheck(tag, prb['tags'])):
-                ps.append('https://codeforces.com/problemset/problem/' + str(prb['contestId']) + '/' + str(prb['index']))
+    @commands.command()
+    async def cf_database(self, ctx):
+        try:
+            problems = json.loads(urlopen(f'https://codeforces.com/api/problemset.problems').read())
 
-        await ctx.send(random.choice(ps))
+            statistic = {'Amount': 0}
 
+            for i in range(800, 3501, 100):
+                statistic[i] = 0
 
-    @commands.command() #creating mashup of random cf problems in specific dificulty range
-    async def genmash(self, ctx, minr = 1600, maxr = 2200, cnt = 4, *tag):
-        with open(path + 'problems.json', encoding = 'utf-8') as f:
-            probs = json.load(f)
-
-        if maxr <  minr:
-            minr, maxr = maxr, minr    
+            for task in problems['result']['problems']:
+                statistic['Amount'] += 1
+                if 'rating' in task:
+                    statistic[task['rating']] += 1
             
-        ps = []
-        pss = []
-        s = f'\n'
+            table = f'**Codeforces database statistics:**\n\n```bash\nKey     Amount\n---------------\n'
 
-        for prb in probs['result']['problems']:
-            if ('rating' in prb) and (prb['rating'] >= minr) and (prb['rating'] <= maxr) and (tagcheck(tag, prb['tags'])):
-                ps.append(('https://codeforces.com/problemset/problem/' + str(prb['contestId']) + '/' + str(prb['index']), prb['rating']))
+            for cell in statistic:
+                table += f'{cell} | {statistic[cell]}\n'
 
-        for i in range(cnt):
-            a = random.randint(0, len(ps))
-            s += f'{ps[a][0]} = {str(ps[a][1])}\n'
-            ps.pop(a)
-        
-        pss.sort(reverse = False, key = cmp)
-        for i in range(len(pss)):
-            s += f'{pss[i][0]} = {str(pss[i][1])}\n'
+            table += '```'
 
-        await ctx.send(s)
-    
-    @commands.command()
-    async def taglist(self, ctx):
-        with open(path + 'tags.txt',  encoding='utf-8') as f:
-            tags = f.read()
-        await ctx.send(tags)
+            await ctx.send(table)
+
+        except urllib.error.HTTPError:
+            await ctx.send(f'Server is unavailable.')
 
     @commands.command()
-    async def ratingcheck(self, ctx, url):
-        contestid = ''
-        ID = ''
-        for i in url:
-            if i.isdigit():
-                contestid += i
-            if i.isupper():
-                ID += i
-        print(contestid)
-        print(ID)
-        with open(path + 'problems.json', encoding = 'utf-8') as f:
-            probs = json.load(f)
+    async def cf_task(self, ctx, minr = 1600, maxr = 2600, amount = 1000, *tags):
+        stroftags = ';'.join(tags)
+        try:
+            problems = json.loads(urlopen(f'https://codeforces.com/api/problemset.problems?tags={stroftags}').read())
 
-        rating = ''
+            sortedtasks = []
 
-        for prb in probs['result']['problems']:
-            if (str(prb['contestId']) == contestid) and (str(prb['index']) == ID):
-                if ('rating' in prb):
-                    rating = str(prb['rating'])
+            for i, task in enumerate(problems['result']['problems']):
+                if ('rating' in task) and (minr <= int(task['rating']) <= maxr):
+                    sortedtasks.append(('https://codeforces.com/contest/' + str(task['contestId']) + '/problem/' + str(task['index']), str(task['rating'])))
+                if i == amount:
                     break
-                else:
-                    rating = 'Error: 404'
-        await ctx.send(f'Rating = {rating}')
+            
+            
 
+            selectedtask = random.choice(sortedtasks)
 
-def cmp(obj): #comporator for problems sorting
-    return obj[1]
+            await ctx.send(f'You get: {selectedtask[0]} of {selectedtask[1]} rating.')
 
-def tagcheck(tag, tags):
-    if len(tag) == 0:
-        return True
-    for i in tags:
-        if i in tag:
-            return True
-    return False
+        except urllib.error.HTTPError:
+            await ctx.send(f'Server is unavailable.')
 
 def setup(bot):
     bot.add_cog(codeforces(bot))
