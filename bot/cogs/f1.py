@@ -36,7 +36,7 @@ class f1(commands.Cog):
             standings += '________________________________________```'
 
             await ctx.send(standings)
-        except urllib.errors.HTTPError:
+        except urllib.error.HTTPError:
             await ctx.send('Server is down.')
 
 def setup(bot):
