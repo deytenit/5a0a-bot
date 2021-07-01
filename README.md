@@ -1,17 +1,16 @@
-# 5a0a - 2010.2
+# 5a0a - 2106.1
 Python discord bot with some cool features
 
 ## Patch notes
 
-- **Added:** Algo database connection
-- **Deleted:** Still majority of bot's functions. I'm gonna re:type it
+- **Added:** Algo database connection.
+- **Codeforces** API conection.
 
 ## Features
 
 ### Codeforces task finder
 
-- **Find** random codeforces task with specific difficulty and tags (default difficulty: 1600 - 2200; no default tags)
-- **Generating** mashup with any posible amount of tasks with specific difficulty and tags (default difficulty: 1600 - 2200; default amount of tasks: 4; no default tags)
+- **Find** random codeforces task with specific difficulty, amount of indexed tasks and tags 
 
 ### Karma
 
