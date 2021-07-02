@@ -117,14 +117,16 @@ class codeforces(commands.Cog):
             await ctx.send('Codeforces.com is unavailable.')
 
         filteredTasks = []
+        i = 0
 
-        for i, task in enumerate(problems['result']['problems']):
+        for task in problems['result']['problems']:
             if i == lastof:
                 break
 
             if ('rating' in task) and (minr <= task['rating'] <= maxr):
                 if (str(task['contestId']) not in users[handle]['solved']) or (task['index'] not in users[handle]['solved'][str(task['contestId'])]):
                     filteredTasks.append(('https://codeforces.com/contest/' + str(task['contestId']) + '/problem/' + str(task['index']), str(task['rating'])))
+                    i += 1
         
         for i in range(amount):
             random.seed(None)
