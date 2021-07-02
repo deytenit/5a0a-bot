@@ -79,7 +79,7 @@ class f1(commands.Cog):
             if flag:
                 ansSchedule += f'{round}. | {name} | [{date}]({time}) | <{circuit}>\n'
                 i += 1
-            elif currentDate > raceDate:
+            elif currentDate <= raceDate:
                 flag = True
                 ansSchedule += f'= {round}. | {name} | [{date}]({time}) | <{circuit}> <= Next Race\n' + '====================================\n'
             
