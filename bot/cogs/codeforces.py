@@ -54,6 +54,8 @@ class codeforces(commands.Cog):
 
         with open(path + '/users.json', 'r', encoding='utf-8') as file:
             users = json.load(file)
+            
+        id = str(ctx.author.id)
 
         if 'handle' in users[id]:
             handle = users[id]['handle']
