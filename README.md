@@ -1,4 +1,4 @@
-# 5a0a - 2106.1
+# 5a0a - 2106.2
 Python discord bot with some cool features
 
 ## Patch notes
