@@ -88,11 +88,11 @@ class codeforces(commands.Cog):
         await ctx.send(anstable)
 
     @commands.command() #Find random problems on codeforces.com with different filters
-    async def cf_task(self, ctx, minr = 1600, maxr = 2600, lastof = 1000, amount = 5, *tags):
+    async def cf_task(self, ctx, minr = 1600, maxr = 2600, lastof = 1000, amount = 1, *tags):
         if maxr < minr:
             maxr, minr = minr, maxr
 
-        if (10 > lastof > 7000) or (2 > amount > min(lastof, 10)) or (minr <= maxr < 800) or (maxr >= minr > 3500):
+        if (10 > lastof > 7000) or (1 > amount > min(lastof, 10)) or (minr <= maxr < 800) or (maxr >= minr > 3500):
             await ctx.send('Wrong request. Type !help for more info.')
             return
 
@@ -101,7 +101,7 @@ class codeforces(commands.Cog):
 
         id = str(ctx.author.id)
 
-        if 'handle' not in users[id]:
+        if id not in users:
             await ctx.send('Please authenicate via !cf_auth [Handle].')
             return
         else:
