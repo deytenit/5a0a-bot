@@ -173,7 +173,7 @@ def applySubmissions(handle, amount = 0): #Keep in fit user solved problems list
         users[handle] = {}
         users[handle]['solvedList'] = {}
 
-        users[handle][0] = 0
+        users[handle]['0'] = 0
 
         for i in range(800, 3501, 100):
             users[handle][i] = 0
@@ -190,7 +190,7 @@ def applySubmissions(handle, amount = 0): #Keep in fit user solved problems list
 
             users[handle]['solved'][str(task['problem']['contestId'])][task['problem']['index']] = 'OK'
 
-            users[handle][0] += 1
+            users[handle]['0'] += 1
 
             if 'rating' in task['problem']:
                 users[handle][str(task['problem']['rating'])] += 1
