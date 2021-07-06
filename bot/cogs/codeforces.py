@@ -175,7 +175,7 @@ def applySubmissions(handle, amount = 0): #Keep in fit user solved problems list
 
     if handle not in users:
         users[handle] = {}
-        users[handle]['solvedList'] = {}
+        users[handle]['solved'] = {}
 
         users[handle]['0'] = 0
 
