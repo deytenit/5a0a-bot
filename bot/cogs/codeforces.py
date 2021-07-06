@@ -180,7 +180,7 @@ def applySubmissions(handle, amount = 0): #Keep in fit user solved problems list
         users[handle]['0'] = 0
 
         for i in range(800, 3501, 100):
-            users[handle][i] = 0
+            users[handle][str(i)] = 0
 
     submissions = json.loads(requests.get(f'https://codeforces.com/api/user.status?handle={handle}').text)
 
