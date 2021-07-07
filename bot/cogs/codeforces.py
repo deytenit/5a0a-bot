@@ -165,6 +165,13 @@ class codeforces(commands.Cog):
             ansdir += '```'
 
             await ctx.send(ansdir)
+            
+    @commands.command() #Print tag list 
+    async def cf_tags(self, ctx):
+        with open(path + '/tags.txt', 'r') as file:
+            tagsList = file.read()
+            await ctx.send(tagsList)
+        
 
 def setup(bot):
     bot.add_cog(codeforces(bot))
