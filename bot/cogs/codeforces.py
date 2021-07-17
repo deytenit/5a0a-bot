@@ -165,7 +165,7 @@ class codeforces(commands.Cog):
     @commands.command() #Search in following github repo
     async def algo_search(self, ctx, query = ''):
         try:
-            repo = json.loads(requests.get(f'https://api.github.com/search/code?q=repo:nartovdima/cp+{query}' + dir).text)
+            repo = json.loads(requests.get(f'https://api.github.com/search/code?q=repo:nartovdima/cp+{query}').text)
         except requests.exceptions.HTTPError:
             await ctx.send('Nothing was found.')
             return
