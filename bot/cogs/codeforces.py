@@ -6,7 +6,7 @@ import json
 import os
 import random
 
-path = os.path.dirname(__file__) + '/data'
+PATH = os.path.dirname(__file__) + '/data'
 
 class codeforces(commands.Cog):
     def __init__(self, bot):
@@ -24,7 +24,7 @@ class codeforces(commands.Cog):
             await ctx.send(f'User {handle} is not found or server is unavailable.')
             return
 
-        with open(path + '/users.json', 'r', encoding='utf-8') as file:
+        with open(PATH + '/users.json', 'r', encoding='utf-8') as file:
             users = json.load(file)
 
         id = str(ctx.author.id)
@@ -34,7 +34,7 @@ class codeforces(commands.Cog):
 
         users[id]['handle'] = handle
 
-        with open(path + '/users.json', 'w', encoding='utf-8') as file:
+        with open(PATH + '/users.json', 'w', encoding='utf-8') as file:
             json.dump(users, file)        
 
         applySubmissions(handle) #creating list
@@ -52,10 +52,8 @@ class codeforces(commands.Cog):
         cfStats = {}
         userStats = {}
 
-        with open(path + '/users.json', 'r', encoding='utf-8') as file:
+        with open(PATH + '/users.json', 'r', encoding='utf-8') as file:
             users = json.load(file)
-            
-        id = str(ctx.author.id)
 
         if 'handle' in users[id]:
             handle = users[id]['handle']
@@ -88,20 +86,20 @@ class codeforces(commands.Cog):
         await ctx.send(anstable)
 
     @commands.command() #Find random problems on codeforces.com with different filters
-    async def cf_task(self, ctx, minr = 1600, maxr = 2600, lastof = 1000, amount = 1, *tags):
+    async def cf_task(self, ctx, minr = 1600, maxr = 2600, lastof = 1000, amount = 5, *tags):
         if maxr < minr:
             maxr, minr = minr, maxr
 
-        if (10 > lastof > 7000) or (1 > amount > min(lastof, 10)) or (minr <= maxr < 800) or (maxr >= minr > 3500):
+        if (10 > lastof > 7000) or (2 > amount > min(lastof, 10)) or (minr <= maxr < 800) or (maxr >= minr > 3500):
             await ctx.send('Wrong request. Type !help for more info.')
             return
 
-        with open(path + '/users.json', 'r', encoding='utf-8') as file:
+        with open(PATH + '/users.json', 'r', encoding='utf-8') as file:
             users = json.load(file)
 
         id = str(ctx.author.id)
 
-        if id not in users:
+        if 'handle' not in users[id]:
             await ctx.send('Please authenicate via !cf_auth [Handle].')
             return
         else:
@@ -117,16 +115,14 @@ class codeforces(commands.Cog):
             await ctx.send('Codeforces.com is unavailable.')
 
         filteredTasks = []
-        i = 0
 
-        for task in problems['result']['problems']:
+        for i, task in enumerate(problems['result']['problems']):
             if i == lastof:
                 break
 
             if ('rating' in task) and (minr <= task['rating'] <= maxr):
                 if (str(task['contestId']) not in users[handle]['solved']) or (task['index'] not in users[handle]['solved'][str(task['contestId'])]):
                     filteredTasks.append(('https://codeforces.com/contest/' + str(task['contestId']) + '/problem/' + str(task['index']), str(task['rating'])))
-                    i += 1
         
         for i in range(amount):
             random.seed(None)
@@ -142,16 +138,16 @@ class codeforces(commands.Cog):
         try:
             repo = json.loads(requests.get('https://api.github.com/repos/nartovdima/cp/contents' + dir).text)
         except requests.exceptions.HTTPError:
-            await ctx.send(f'Unable to reach destination.')
+            await ctx.send('Unable to reach destination.')
             return
 
         if 'name' in repo and repo['type'] == 'file':
             url = repo['download_url']
 
             file = requests.get(url, allow_redirects=True)
-            open(path + '/temp.txt', 'wb').write(file.content)
+            open(PATH + '/temp.txt', 'wb').write(file.content)
 
-            await ctx.send(url, file=discord.File(path + '/temp.txt'))
+            await ctx.send(url, file=discord.File(PATH + '/temp.txt'))
         else:
             ansdir = '```py\n' + '> cp' + dir + ' $\n'
 
@@ -165,29 +161,61 @@ class codeforces(commands.Cog):
             ansdir += '```'
 
             await ctx.send(ansdir)
+
+    @commands.command() #Search in following github repo
+    async def algo_search(self, ctx, query = ''):
+        try:
+            repo = json.loads(requests.get(f'https://api.github.com/search/code?q=repo:nartovdima/cp+{query}' + dir).text)
+        except requests.exceptions.HTTPError:
+            await ctx.send('Nothing was found.')
+            return
+
+        if repo['total_count'] == 0:
+            await ctx.send('No items were found in repository.')
+            return
+
+        if repo['total_count'] == 1:
+            try:
+                file = json.loads(requests.get(repo['items'][0]['url']).text)
+            except requests.exceptions.HTTPError:
+                await ctx.send('Unable to reach destination.')
+                return
+
+            url = file['download_url']
+
+            file = requests.get(url, allow_redirects=True)
+            open(PATH + '/temp.txt', 'wb').write(file.content)
+
+            await ctx.send(url, file=discord.File(PATH + '/temp.txt'))
+        else:
+            ansdir = '```py\n' + '> cp $ find ' + query + '\n'
+
+            for i, file in enumerate(repo['items']):
+                name = file['name']
+                path = file['path']
+
+                ansdir += f'{i} | {name} | {path}\n'
             
-    @commands.command() #Print tag list 
-    async def cf_tags(self, ctx):
-        with open(path + '/tags.txt', 'r') as file:
-            tagsList = file.read()
-            await ctx.send(tagsList)
-        
+            ansdir += '```'
+
+            await ctx.send(ansdir)
+
 
 def setup(bot):
     bot.add_cog(codeforces(bot))
 
 def applySubmissions(handle, amount = 0): #Keep in fit user solved problems list
-    with open(path + '/users.json', 'r', encoding='utf-8') as file:
+    with open(PATH + '/users.json', 'r', encoding='utf-8') as file:
         users = json.load(file)
 
     if handle not in users:
         users[handle] = {}
-        users[handle]['solved'] = {}
+        users[handle]['solvedList'] = {}
 
-        users[handle]['0'] = 0
+        users[handle][0] = 0
 
         for i in range(800, 3501, 100):
-            users[handle][str(i)] = 0
+            users[handle][i] = 0
 
     submissions = json.loads(requests.get(f'https://codeforces.com/api/user.status?handle={handle}').text)
 
@@ -197,14 +225,14 @@ def applySubmissions(handle, amount = 0): #Keep in fit user solved problems list
 
         if task['verdict'] == 'OK':
             if str(task['problem']['contestId']) not in users[handle]['solved']:
-                users[handle]['solved'][str(task['problem']['contestId'])] = {}
+                users[handle]['solved'][task['problem']['contestId']] = {}
 
-            users[handle]['solved'][str(task['problem']['contestId'])][task['problem']['index']] = 'OK'
+            users[handle]['solved'][task['problem']['contestId']][task['problem']['index']] = 'OK'
 
-            users[handle]['0'] += 1
+            users[handle][0] += 1
 
             if 'rating' in task['problem']:
-                users[handle][str(task['problem']['rating'])] += 1
+                users[handle][task['problem']['rating']] += 1
 
-    with open(path + '/users.json', 'w', encoding='utf-8') as file:
+    with open(PATH + '/users.json', 'w', encoding='utf-8') as file:
             json.dump(users, file)
