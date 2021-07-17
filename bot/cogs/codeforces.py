@@ -144,10 +144,12 @@ class codeforces(commands.Cog):
         if 'name' in repo and repo['type'] == 'file':
             url = repo['download_url']
 
-            file = requests.get(url, allow_redirects=True)
-            open(PATH + '/temp.txt', 'wb').write(file.content)
+            fileContent = requests.get(url, allow_redirects=True)
+            open(PATH + '/temp.txt', 'wb').write(fileContent.content)
+            
+            msg = repo['name'] + '\n' + url
 
-            await ctx.send(url, file=discord.File(PATH + '/temp.txt'))
+            await ctx.send(msg, file=discord.File(PATH + '/temp.txt'))
         else:
             ansdir = '```py\n' + '> cp' + dir + ' $\n'
 
@@ -183,10 +185,12 @@ class codeforces(commands.Cog):
 
             url = file['download_url']
 
-            file = requests.get(url, allow_redirects=True)
-            open(PATH + '/temp.txt', 'wb').write(file.content)
+            fileContent = requests.get(url, allow_redirects=True)
+            open(PATH + '/temp.txt', 'wb').write(fileContent.content)
+            
+            msg = file['name'] + '\n' + url
 
-            await ctx.send(url, file=discord.File(PATH + '/temp.txt'))
+            await ctx.send(msg, file=discord.File(PATH + '/temp.txt'))
         else:
             ansdir = '```py\n' + '> cp $ find ' + query + '\n'
 
