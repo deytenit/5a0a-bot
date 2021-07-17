@@ -229,9 +229,9 @@ def applySubmissions(handle, amount = 0): #Keep in fit user solved problems list
 
         if task['verdict'] == 'OK':
             if str(task['problem']['contestId']) not in users[handle]['solved']:
-                users[handle]['solved'][task['problem']['contestId']] = {}
+                users[handle]['solved'][str(task['problem']['contestId'])] = {}
 
-            users[handle]['solved'][task['problem']['contestId']][task['problem']['index']] = 'OK'
+            users[handle]['solved'][str(task['problem']['contestId'])][task['problem']['index']] = 'OK'
 
             users[handle]['0'] += 1
 
