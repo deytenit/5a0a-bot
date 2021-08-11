@@ -3,3 +3,5 @@ flask
 PyNaCl
 dnspython
 requests
+youtube-dl
+ffmpeg
