@@ -11,7 +11,7 @@ Python discord bot.
 ### Codeforces API
 
 - Scoreboard with all indexed tasks
-- Find random task using some filters
+- Find random task by using some filters
 - Keep in track your solved problems
 
 ### F1 API
@@ -27,7 +27,7 @@ Python discord bot.
 
 ### Algorithm database
 
-- Dir within CP repository
+- Dir within repository
 - Search in it
 
 ## Installation
