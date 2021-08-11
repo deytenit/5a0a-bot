@@ -1,39 +1,58 @@
-# 5a0a - 2106.2
-Python discord bot with some cool features
+# 5a0a - 2108.1
+Python discord bot.
 
-## Patch notes
+## Latest update
 
-- **Added:** Algo database connection.
-- **Codeforces** API conection.
+- Music features
+- F1 information
 
 ## Features
 
-### Codeforces task finder
+### Codeforces API
 
-- **Find** random codeforces task with specific difficulty, amount of indexed tasks and tags 
+- Scoreboard with all indexed tasks
+- Find random task using some filters
+- Keep in track your solved problems
 
-### Karma
+### F1 API
 
-- **Karma** system according to your server activity
+- F1 Schedule for next races
+- F1 Current drivers championship
+
+### Music player
+
+- Play music from YouTube and other supported platforms
+- Create your queues and save them
+- Loop, next, stop and other simple commands
+
+### Algorithm database
+
+- Dir within CP repository
+- Search in it
 
 ## Installation
 
 ### Download bot repository
 
-- **[Download](https://github.com/unknowableshade/wndrx-bot/archive/master.zip)**
+- **[Download](https://github.com/unknowableshade/5a0a-bot/archive/refs/heads/main.zip)**
 
 ### Requirements
 
-> :warning: **bot requires Python 3.7 or later & Discord.py library 1.4.0b or later!**
+> :warning: **Read the docs!**
 
-- **[Download](https://www.python.org/downloads/)** Python from official website
+- **Install** [Python](https://www.python.org/downloads/)
 
-- **Install** Discord.py & PyGithub libraries:
+- **Install** required libraries:
 
 ```bash
 $ pip install discord.py
-$ pip install PyGithub
+$ pip install PyNaCl
+$ pip install youtube-dl
+$ pip install requests
 ```
+
+- **Install** [ffmpeg](https://www.ffmpeg.org/download.html)
+
 ### Bot startup
 
 - **Insert** bot token in main.py file
@@ -50,4 +69,4 @@ $ pip install PyGithub
 
 ## Licence 
 
-**[Licence](https://choosealicense.com/licenses/apache-2.0/)**
+**[Licence](https://github.com/unknowableshade/5a0a-bot/blob/main/LICENSE)**
