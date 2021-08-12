@@ -1,11 +1,9 @@
-﻿#5a0a bot - Music cog
+#5a0a bot - Music cog
 import discord
-from discord import reaction
 from discord.ext import commands
 from youtube_dl import YoutubeDL
 import requests
 import asyncio
-import nacl
 import json
 import os
 
@@ -52,13 +50,32 @@ class Music(commands.Cog):
                     self.is_playing = False
                     return
 
-            url = self.music_queue[self.queue_position]['url']
-            print(url)
+            song = self.music_queue[self.queue_position]
+            print(song['url'])
             self.queue_position += 1
 
-            self.vc.play(discord.FFmpegPCMAudio(url, **FFMPEG_OPTIONS), after=lambda e: self.play_music())
+            self.vc.play(discord.FFmpegPCMAudio(song['url'], **FFMPEG_OPTIONS), after=lambda e: self.play_music())
+            return song['title']
         else:
             self.is_playing = False
+            return 'Queue is empty.'
+
+    def generate_queue(self, page):
+        post = '```ml\n'
+        for i in range(page * 10, min(page * 11 + 10, len(self.music_queue))):
+            if i + 1 == self.queue_position:
+                post += '    ⬐ current track\n' + str(i + 1) + ') ' + self.music_queue[i]['title'] + '\n' + '    ⬑ current track\n'
+            else:
+                post += str(i + 1) + ') ' + self.music_queue[i]['title'] + '\n'
+
+        if page * 11 + 10 >= len(self.music_queue):
+            post += '\nThis is the end of queue!\n'
+        else:
+            post += f'\nThere {len(self.music_queue) - (page * 11 + 10)} songs left.'
+
+        post += '```'
+        return post
+
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
@@ -96,7 +113,7 @@ class Music(commands.Cog):
             await ctx.invoke(self.connect)
 
         if not self.is_playing:
-            self.play_music()
+            await ctx.send(f'Now playing: **{self.play_music()}**')
 
     @commands.command()
     async def stop(self, ctx):
@@ -105,6 +122,7 @@ class Music(commands.Cog):
             await self.vc.disconnect()
             self.vc = None
             self.is_playing = False
+            await ctx.send('Goodbye.')
 
     @commands.command()
     async def next(self, ctx):
@@ -116,21 +134,10 @@ class Music(commands.Cog):
     @commands.command()
     async def queue(self, ctx):
         if len(self.music_queue) > 0:
-            page = 0
-            
-            respond = []
-            tmp = '```ml\n'
-            for i, song in enumerate(self.music_queue):
-                if i + 1 == self.queue_position:
-                    tmp += '    ⬐ current track\n' + str(i + 1) + ') ' + song['title'] + '\n' + '    ⬑ current track\n'
-                else:
-                    tmp += str(i + 1) + ') ' + song['title'] + '\n'
-                if (i % 10 == 0 and i != 0) or i == len(self.music_queue) - 1:
-                    tmp += '```'
-                    respond.append(tmp)
-                    tmp = '```ml\n'
+            page = self.queue_position // 11
+            maxPage = len(self.music_queue) // 11 + 1
                
-            msg = await ctx.send(respond[0])
+            msg = await ctx.send(self.generate_queue(page))
             reactions = ['⏫', '🔼', '🔽', '⏬']
             for emoji in reactions:
                 await msg.add_reaction(emoji)
@@ -139,16 +146,19 @@ class Music(commands.Cog):
 
             while flag:
                 try:
-                    reaction, user = await self.bot.wait_for('reaction_add', timeout = 60, check = lambda reaction, user: str(reaction.emoji) in reactions)
+                    reaction, user = await self.bot.wait_for('reaction_add', timeout = 60, check = lambda reaction, user: str(reaction.emoji) in reactions and user.id != self.bot.user.id and msg == reaction.message)
                     if reaction.emoji == reactions[0]:
                         page = 0
                     elif reaction.emoji == reactions[1] and page != 0:
                         page -= 1
-                    elif reaction.emoji == reactions[2] and page != len(respond) - 1:
+                    elif reaction.emoji == reactions[2] and page != maxPage - 1:
                         page += 1
                     elif reaction.emoji == reactions[3]:
-                        page = len(respond) - 1
-                    await msg.edit(content=respond[page])
+                        page = maxPage - 1
+                    await reaction.remove(user)
+                    print(page)
+                    print(maxPage)
+                    await msg.edit(content=self.generate_queue(page))
                 except asyncio.TimeoutError:
                     flag = False
 
@@ -158,16 +168,21 @@ class Music(commands.Cog):
     @commands.command()
     async def loop(self, ctx):
         self.is_looped = not self.is_looped
-        await ctx.send('Loop was toggled.')
+        if self.is_looped:
+            await ctx.send('Now looping queue.')
+        else:
+            await ctx.send('Stoped looping queue.')
 
     @commands.command()
     async def remove(self, ctx, query):
         if query.isnumeric() and int(query) <= len(self.music_queue):
             del self.music_queue[int(query) - 1]
+            await ctx.invoke(self.next)
         else:
             for i in range(len(self.music_queue)):
                 if query in self.music_queue[i]['title']:
                     del self.music_queue[i]
+                    await ctx.invoke(self.next)
                     break
 
     @commands.command()
@@ -187,7 +202,10 @@ class Music(commands.Cog):
         if len(self.music_queue) != 0:
             self.music_queue.clear()
             self.queue_position = 0
-            await ctx.invoke(self.stop)
+            self.vc.stop()
+            await ctx.send('Queue has been cleared.')
+        else:
+            await ctx.send('Queue is empty.')
 
     @commands.command()
     async def queue_save(self, ctx, name = ''):
@@ -195,7 +213,10 @@ class Music(commands.Cog):
             queues = json.load(file)
         
         if name != '' and name not in queues:
-            queues[name] = self.music_queue
+            queues[name] = [song['title'] for song in self.music_queue]
+            await ctx.send('Queue was saved.')
+        else:
+            await ctx.send('Failed to save queue.')
         
         with open(PATH + '/queues.json', 'w', encoding='utf-8') as file:
             json.dump(queues, file)  
@@ -206,7 +227,11 @@ class Music(commands.Cog):
             queues = json.load(file)
         
         if name != '' and name in queues:
-            self.music_queue = queues[name]
+            for song in queues[name]:
+                self.add_music(song)
+            await ctx.send('Queue has been loaded.')
+        else:
+            await ctx.send('Failed to load queue.')
 
     @commands.Cog.listener() #activates when this cog in ready state
     async def on_ready(self):
