@@ -20,6 +20,7 @@ class Music(commands.Cog):
         self.queue_position = 0
         self.music_queue = []
 
+        self.info_msg = None
         self.vc = None
 
     def add_music(self, query):
@@ -92,7 +93,7 @@ class Music(commands.Cog):
     async def connect(self, ctx):
         channel = ctx.author.voice.channel
 
-        if self.vc != None:
+        if self.vc is not None:
             if self.vc.channel.id == channel.id:
                 return
             else:
@@ -146,7 +147,7 @@ class Music(commands.Cog):
 
             while flag:
                 try:
-                    reaction, user = await self.bot.wait_for('reaction_add', timeout = 60, check = lambda reaction, user: str(reaction.emoji) in reactions and user.id != self.bot.user.id and msg == reaction.message)
+                    reaction, user = await self.bot.wait_for('reaction_add', timeout=60, check=lambda reaction, user: str(reaction.emoji) in reactions and user.id != self.bot.user.id and msg == reaction.message)
                     if reaction.emoji == reactions[0]:
                         page = 0
                     elif reaction.emoji == reactions[1] and page != 0:

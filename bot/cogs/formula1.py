@@ -71,7 +71,7 @@ class f1(commands.Cog):
             round = race['round']
             name = race['raceName']
             date = race['date']
-            time = race['time']
+            time = str((int(race['time'][0:2]) + 3) % 24) + ':00:00MSK'
             circuit = race['Circuit']['circuitName']
 
             raceDate = datetime.strptime(date, '%Y-%m-%d')
