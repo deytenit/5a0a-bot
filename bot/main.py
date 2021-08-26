@@ -15,7 +15,7 @@ async def on_ready(): #activates when bot is ready to work
     print(f'user id: {bot.user.id}')
     print(f'--------------------------------')
 
-    game = discord.Game("github.com/unknowableshade/5a0a-bot")
+    game = discord.Game("with Algoritms")
     await bot.change_presence(status = discord.Status.idle, activity = game)
 
  
