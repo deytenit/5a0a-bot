@@ -104,7 +104,7 @@ class Music(commands.Cog):
         await ctx.send('Connected.')
 
 
-    @commands.command()
+    @commands.command(aliases=['p'])
     async def play(self, ctx, *args):
         query = ' '.join(args)
         if len(args) != 0:
@@ -116,7 +116,7 @@ class Music(commands.Cog):
         if not self.is_playing:
             await ctx.send(f'Now playing: **{self.play_music()}**')
 
-    @commands.command()
+    @commands.command(aliases=['s'])
     async def stop(self, ctx):
         if self.is_playing:
             self.vc.stop()
@@ -125,14 +125,14 @@ class Music(commands.Cog):
             self.is_playing = False
             await ctx.send('Goodbye.')
 
-    @commands.command()
+    @commands.command(aliases=['n', 'skip'])
     async def next(self, ctx):
         if self.is_playing:
             self.vc.stop()
 
         await ctx.invoke(self.play)
 
-    @commands.command()
+    @commands.command(aliases=['q'])
     async def queue(self, ctx):
         if len(self.music_queue) > 0:
             page = self.queue_position // 11
@@ -166,7 +166,7 @@ class Music(commands.Cog):
         else:
             await ctx.send('Queue is empty.')
 
-    @commands.command()
+    @commands.command(aliases=['l'])
     async def loop(self, ctx):
         self.is_looped = not self.is_looped
         if self.is_looped:
@@ -174,7 +174,7 @@ class Music(commands.Cog):
         else:
             await ctx.send('Stoped looping queue.')
 
-    @commands.command()
+    @commands.command(aliases=['r'])
     async def remove(self, ctx, query):
         if query.isnumeric() and int(query) <= len(self.music_queue):
             del self.music_queue[int(query) - 1]
@@ -186,7 +186,7 @@ class Music(commands.Cog):
                     await ctx.invoke(self.next)
                     break
 
-    @commands.command()
+    @commands.command(aliases=['j'])
     async def jump(self, ctx, query):
         if query.isnumeric() and int(query) <= len(self.music_queue):
             self.queue_position = int(query) - 1
@@ -198,7 +198,7 @@ class Music(commands.Cog):
                     await ctx.invoke(self.next)
                     break
 
-    @commands.command()
+    @commands.command(aliases=['c'])
     async def clear(self, ctx):
         if len(self.music_queue) != 0:
             self.music_queue.clear()
@@ -208,7 +208,7 @@ class Music(commands.Cog):
         else:
             await ctx.send('Queue is empty.')
 
-    @commands.command()
+    @commands.command(aliases=['qs'])
     async def queue_save(self, ctx, name = ''):
         with open(PATH + '/queues.json', 'r', encoding='utf-8') as file:
             queues = json.load(file)
@@ -222,7 +222,7 @@ class Music(commands.Cog):
         with open(PATH + '/queues.json', 'w', encoding='utf-8') as file:
             json.dump(queues, file)  
 
-    @commands.command()
+    @commands.command(aliases=['ql'])
     async def queue_load(self, ctx, name = ''):
         with open(PATH + '/queues.json', 'r', encoding='utf-8') as file:
             queues = json.load(file)

@@ -1,10 +1,9 @@
 import os
 import discord
 from discord.ext import commands
-import json
 
 bot = commands.Bot(command_prefix = '!') #bot commands prefix
-TOKEN = os.getenv("DISCORD_TOKEN")
+TOKEN = os.getenv('DISCORD_TOKEN')
 path = os.path.dirname(__file__)
 
 @bot.event
@@ -32,6 +31,11 @@ async def unload_ext(ctx, ext):
 for filename in os.listdir(path + '/cogs'): #auto activate all cogs from /cogs directory
     if filename.endswith('.py'):
         bot.load_extension(f'cogs.{filename[:-3]}')
+
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandNotFound):
+        await ctx.send('Command was not found.')
 
 @bot.command()
 async def ping(ctx):
