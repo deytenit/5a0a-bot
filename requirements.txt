@@ -5,3 +5,4 @@ dnspython
 requests
 youtube-dl
 ffmpeg
+tabulate
