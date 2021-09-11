@@ -1,6 +1,6 @@
 #5a0a bot - Music cog
-import re
 from turtle import title
+from unicodedata import name
 import discord
 from discord.ext import commands
 from youtube_dl import YoutubeDL
@@ -144,7 +144,7 @@ class Music(commands.Cog):
                     except:
                         pass
 
-    @commands.command()
+    @commands.command(name='play', aliases=['c'])
     async def connect_(self, ctx):
         channel = ctx.author.voice.channel
 
@@ -158,7 +158,7 @@ class Music(commands.Cog):
         embed = discord.Embed(title=f'Connected to {channel}')
         await ctx.send(embed=embed, delete_after=20)
         
-    @commands.command()
+    @commands.command(name='play', aliases=['p'])
     async def play_(self, ctx, *query):
         query = ' '.join(query)
 
@@ -175,14 +175,14 @@ class Music(commands.Cog):
         if not player.playing:
             ctx.bot.loop.create_task(player.play_music())
 
-    @commands.command()
+    @commands.command(name='stop', aliases=['s'])
     async def stop_(self, ctx):
         vc = ctx.voice_client
 
         if vc is not None:
             await self.destruct(ctx.guild)
 
-    @commands.command()
+    @commands.command(name='next', aliases=['n', 'skip'])
     async def next_(self, ctx):
         vc = ctx.voice_client
 
@@ -190,7 +190,7 @@ class Music(commands.Cog):
             vc.stop()
             await ctx.invoke(self.play_)
 
-    @commands.command()
+    @commands.command(name='pause')
     async def pause_(self, ctx):
         vc = ctx.voice_client
 
@@ -202,7 +202,7 @@ class Music(commands.Cog):
             else:
                 await ctx.invoke(self.resume_(ctx))
 
-    @commands.command()
+    @commands.command(name='resume')
     async def resume_(self, ctx):
         vc = ctx.voice_client
 
@@ -212,29 +212,29 @@ class Music(commands.Cog):
                 embed = discord.Embed(title='Resumed player.')
                 await ctx.send(embed=embed)
 
-    @commands.command()
+    @commands.command(name='loop', aliases=['l'])
     async def loop_(self, ctx, mode):
         vc = ctx.voice_client
 
         if vc is not None:
             player = self.get_player(ctx)
 
-            if mode == 'none':
+            if mode.startswith('n'):
                 player.looping = 0
                 embed = discord.Embed(title='Loop is disabled')
                 await ctx.send(embed=embed)
 
-            if mode == 'queue':
+            if mode.startswith('q'):
                 player.looping = 1
                 embed = discord.Embed(title='Looping queue')
                 await ctx.send(embed=embed)
 
-            if mode == 'song':
+            if mode.startswith('s'):
                 player.looping = 2
                 embed = discord.Embed(title='Looping song')
                 await ctx.send(embed=embed)
 
-    @commands.command()
+    @commands.command(name='remove', aliases=['r'])
     async def remove_(self, ctx, *query):
         vc = ctx.voice_client
 
@@ -261,7 +261,7 @@ class Music(commands.Cog):
                             await ctx.invoke(self.next_)
                         break
 
-    @commands.command()
+    @commands.command(name='jump', aliases=['j'])
     async def jump_(self, ctx, *query):
         vc = ctx.voice_client
 
@@ -279,7 +279,7 @@ class Music(commands.Cog):
                         await ctx.invoke(self.next_)
                         break
 
-    @commands.command()
+    @commands.command(name='queue', aliases='q')
     async def queue_(self, ctx):
         vc = ctx.voice_client
 
@@ -316,7 +316,7 @@ class Music(commands.Cog):
             else:
                 await ctx.send('Queue is empty.')
 
-    @commands.command()
+    @commands.command(name='clear', aliases=['c'])
     async def clear_(self, ctx):
         vc = ctx.voice_client
 
