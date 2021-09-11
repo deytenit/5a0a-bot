@@ -1,7 +1,7 @@
 # 5a0a - 2109.1 <soundrewrite>
 Python discord bot.
  
-**Since discord.py has been archived and probably will be deprecated. This repo will do the same.** 
+**Since discord.py has been archived and probably will be deprecated. This repo does the same.** 
 
 ## Latest update
 
