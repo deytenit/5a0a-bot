@@ -277,7 +277,7 @@ class Music(commands.Cog):
                         await ctx.invoke(self.next_)
                         break
 
-    @commands.command(name='queue', aliases='q')
+    @commands.command(name='queue', aliases=['q'])
     async def queue_(self, ctx):
         vc = ctx.voice_client
 
