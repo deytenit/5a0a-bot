@@ -1,6 +1,4 @@
 #5a0a bot - Music cog
-from turtle import title
-from unicodedata import name
 import discord
 from discord.ext import commands
 from youtube_dl import YoutubeDL
