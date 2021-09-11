@@ -142,7 +142,7 @@ class Music(commands.Cog):
                     except:
                         pass
 
-    @commands.command(name='connect', aliases=['c'])
+    @commands.command(name='connect')
     async def connect_(self, ctx):
         channel = ctx.author.voice.channel
 
