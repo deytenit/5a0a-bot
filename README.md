@@ -1,10 +1,12 @@
-# 5a0a - 2108.1
+# 5a0a - 2109.1 <soundrewrite>
 Python discord bot.
 
 ## Latest update
 
-- Music features
-- F1 information
+- Music is refined, partically redesigned and rewrited.
+- Create multiple player instances on different servers.
+- Saving queues is deprecated [**rewrite is pending**]
+ 
 
 ## Features
 
@@ -17,13 +19,16 @@ Python discord bot.
 ### F1 API
 
 - F1 Schedule for next races
-- F1 Current drivers championship
+- F1 Current drivers and constructors championship
 
 ### Music player
 
 - Play music from YouTube and other supported platforms
-- Create your queues and save them
-- Loop, next, stop and other simple commands
+- *Create your queues and save them* [**Deprecated**]
+- Loop queue, song.
+- Play next, stop, pause, resume.
+- Queue jump, remove.
+- And another features.
 
 ### Algorithm database
 
@@ -49,6 +54,9 @@ $ pip install discord.py
 $ pip install PyNaCl
 $ pip install youtube-dl
 $ pip install requests
+$ pip install tabulate
+$ pip install flask
+$ pip install dnspython
 ```
 
 - **Install** [ffmpeg](https://www.ffmpeg.org/download.html)
